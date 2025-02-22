@@ -2,6 +2,9 @@ import { useState } from "react";
 import Header from "../../shared/header";
 import axios from "axios";
 import { setInLocalStorage } from "../../utils/utils";
+import { useNavigate } from "react-router-dom";
+import { QUESTIONS_ROUTE } from "../../router/const";
+
 
 const categories = [
   { name: "sport", id: 21 },
@@ -13,6 +16,7 @@ const categories = [
 ];
 
 function Setup() {
+  const navigate = useNavigate()
   const [difficulty, setDifficulty] = useState("");
   const [numOfQuestions, setNumOfQuestions] = useState(null);
   const [userCategory, setUserCategory] = useState("");
@@ -24,8 +28,8 @@ function Setup() {
         const res = await axios.get(
           `https://opentdb.com/api.php?amount=${questionsCount}&category=${id}&difficulty=${difficulty}`
         );
-        console.log(res.data.results);
-        setInLocalStorage("questions", res.data.results)
+        setInLocalStorage("questions", res.data.results);
+        navigate(`/${QUESTIONS_ROUTE}`)
       } catch (err) {
         console.log(err);
       }
@@ -85,7 +89,9 @@ function Setup() {
       <div className="flex flex-col gap-2">
         <h1
           className="font-bold text-white text-3xl hover:cursor-pointer"
-          onClick={() => quizDataHandler(userCategory, difficulty, numOfQuestions)}
+          onClick={() =>
+            quizDataHandler(userCategory, difficulty, numOfQuestions)
+          }
         >
           START
         </h1>
