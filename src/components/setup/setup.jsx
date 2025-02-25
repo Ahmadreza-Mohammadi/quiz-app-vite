@@ -5,7 +5,6 @@ import { setInLocalStorage } from "../../utils/utils";
 import { useNavigate } from "react-router-dom";
 import { QUESTIONS_ROUTE } from "../../router/const";
 
-
 const categories = [
   { name: "sport", id: 21 },
   { name: "art", id: 25 },
@@ -16,7 +15,7 @@ const categories = [
 ];
 
 function Setup() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [difficulty, setDifficulty] = useState("");
   const [numOfQuestions, setNumOfQuestions] = useState(null);
   const [userCategory, setUserCategory] = useState("");
@@ -29,7 +28,7 @@ function Setup() {
           `https://opentdb.com/api.php?amount=${questionsCount}&category=${id}&difficulty=${difficulty}`
         );
         setInLocalStorage("questions", res.data.results);
-        navigate(`/${QUESTIONS_ROUTE}`)
+        navigate(`/${QUESTIONS_ROUTE}`);
       } catch (err) {
         console.log(err);
       }
@@ -40,25 +39,28 @@ function Setup() {
   }
 
   return (
-    <div className="bg-[#9334ea] h-screen flex flex-col items-center justify-around">
-      <div className="flex flex-col items-center gap-24">
+    <div className="bg-[#7d8fa2] h-screen flex flex-col items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-2xl max-w-md w-full text-center flex flex-col gap-6">
         <Header />
-        <h1 className="font-bold text-white text-2xl">Setup Quiz</h1>
-      </div>
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-1">
-          <span className="text-white font-semibold">Number Of Question</span>
+        <h1 className="font-bold text-[#2D3436] text-3xl mb-4">Setup Quiz</h1>
+
+        <div className="flex flex-col gap-2">
+          <span className="text-[#2D3436] font-semibold">
+            Number Of Questions
+          </span>
           <input
             onChange={(e) => setNumOfQuestions(e.target.value)}
-            className="bg-[#fde047] w-[580px] p-2 rounded-md shadow-xl"
+            className="bg-[#F8F9FA] w-full p-2 rounded-lg border border-[#6C5CE7] focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]"
             type="number"
+            placeholder="Enter number of questions"
           />
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2">
+          <span className="text-[#2D3436] font-semibold">Category</span>
           <select
             onChange={(e) => setUserCategory(e.target.value)}
-            className="bg-[#fde047] w-[580px] p-2 rounded-md shadow-xl"
+            className="bg-[#F8F9FA] w-full p-2 rounded-lg border border-[#6C5CE7] focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]"
           >
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
@@ -68,41 +70,32 @@ function Setup() {
           </select>
         </div>
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2">
+          <span className="text-[#2D3436] font-semibold">Difficulty</span>
           <select
-            className="bg-[#fde047] w-[580px] p-2 rounded-md shadow-xl"
             onChange={(e) => setDifficulty(e.target.value)}
+            className="bg-[#F8F9FA] w-full p-2 rounded-lg border border-[#6C5CE7] focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]"
           >
             <option value="easy">Easy</option>
-            <option value="meidum">Medium</option>
+            <option value="medium">Medium</option>
             <option value="hard">Hard</option>
           </select>
         </div>
-      </div>
 
-      {errorMessage && (
-        <div className="text-red-500">
-          <p>{errorMessage}</p>
-        </div>
-      )}
+        {errorMessage && (
+          <div className="text-red-500 font-semibold">
+            <p>{errorMessage}</p>
+          </div>
+        )}
 
-      <div className="flex flex-col gap-2">
-        <h1
-          className="font-bold text-white text-3xl hover:cursor-pointer"
+        <button
           onClick={() =>
             quizDataHandler(userCategory, difficulty, numOfQuestions)
           }
+          className="bg-[#6C5CE7] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#5A4DCF] hover:scale-105 transition-all duration-300"
         >
           START
-        </h1>
-        <img
-          onClick={() =>
-            quizDataHandler(userCategory, difficulty, numOfQuestions)
-          }
-          className="h-10 hover:cursor-pointer"
-          src="https://www.svgrepo.com/show/375866/power.svg"
-          alt=""
-        />
+        </button>
       </div>
     </div>
   );
